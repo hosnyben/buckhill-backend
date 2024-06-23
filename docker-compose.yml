@@ -1,0 +1,57 @@
+services:
+  # PHP Service
+  petshop_api:
+    build:
+      context: .
+      dockerfile: ./Docker/Dockerfile
+    container_name: petshop_api
+    restart: unless-stopped
+    tty: true
+    expose:
+      - "9000"
+    volumes:
+      - .:/var/www/app
+    networks:
+      - petshop
+
+  # MySQL Service
+  mysql:
+    image: mysql/mysql-server:latest
+    ports:
+        - '3306:3306'
+    container_name: mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: petshop_db
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_USER: petshop_user
+      MYSQL_PASSWORD: password 
+      MYSQL_ROOT_HOST: '%' # Allow remote access
+    volumes:
+      - mysql-data:/var/lib/mysql
+    networks:
+      - petshop
+
+  # Nginx Service
+  nginx:
+    image: nginx:alpine
+    container_name: nginx
+    restart: unless-stopped
+    tty: true
+    ports:
+      - "7001:80"
+    volumes:
+      - ./Docker/nginx.conf:/etc/nginx/conf.d/default.conf
+      - .:/var/www/app:delegated
+    depends_on:
+      - petshop_api
+    networks:
+      - petshop
+
+networks:
+  petshop:
+    driver: bridge
+
+volumes:
+  mysql-data:
+    driver: local
