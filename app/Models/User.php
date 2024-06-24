@@ -7,10 +7,14 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
+use App\Traits\JWTAuthTrait;
+use Illuminate\Support\Str;
+
 class User extends Authenticatable
 {
     use HasFactory;
     use Notifiable;
+    use JWTAuthTrait;
 
     /**
      * The attributes that are mass assignable.
@@ -18,9 +22,12 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
+        'first_name',
+        'last_name',
         'email',
         'password',
+        'address',
+        'phone_number',
     ];
 
     /**
@@ -29,8 +36,14 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $hidden = [
+        'id',
+        'is_admin',
+        'is_marketing',
+        'email_verified_at',
         'password',
-        'remember_token',
+        'created_at',
+        'updated_at',
+        'last_login_at'
     ];
 
     /**
@@ -44,5 +57,12 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    protected static function booted()
+    {
+        static::creating(function ($user) {
+            $user->uuid = (string) Str::uuid(); // Automatically generate and set the UUID
+        });
     }
 }
