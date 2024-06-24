@@ -15,7 +15,7 @@ return new class () extends Migration {
         });
 
         Schema::table('users', function (Blueprint $table) {
-            $table->string('uuid', 36)->unique()->after('id');
+            $table->string('uuid', 36)->unique()->after('id')->index();
             $table->string('last_name')->after('first_name');
             $table->boolean('is_admin')->default(false)->after('last_name');
             $table->string('avatar', 36)->nullable()->constrained('files', 'uuid')->after('password');
