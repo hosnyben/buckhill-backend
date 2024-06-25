@@ -17,7 +17,7 @@ class OrderStatusFactory extends Factory
     public function definition(): array
     {
         return [
-            'title' => fake()->unique()->randomElement(['open', 'pending payment', 'paid', 'shipped', 'cancelled'])
+            'title' => fake()->randomElement(['open', 'pending payment', 'paid', 'shipped', 'cancelled'])
         ];
     }
 }

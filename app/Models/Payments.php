@@ -6,14 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class OrderStatus extends Model
+class Payments extends Model
 {
     use HasFactory;
     use HasUuids;
 
     protected $primaryKey = 'uuid';
 
-    protected $fillable = ['name','description'];
-
-    protected $hidden = ['id','created_at','updated_at'];
+    protected $hidden = ['id','created_at','updated_at',];
 }

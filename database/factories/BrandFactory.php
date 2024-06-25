@@ -18,7 +18,7 @@ class BrandFactory extends Factory
     {
         return [
             'title' => fake()->sentence(2),
-            'slug' => fake()->unique()->slug(3),
+            'slug' => fake()->slug(3),
         ];
     }
 }
