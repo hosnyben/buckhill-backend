@@ -10,17 +10,11 @@ return new class () extends Migration {
      */
     public function up(): void
     {
-        Schema::create('products', function (Blueprint $table) {
+        Schema::create('order_statuses', function (Blueprint $table) {
             $table->id();
-            $table->uuid('category_uuid');
-            $table->foreign('category_uuid')->references('uuid')->on('categories')->onDelete('cascade');
             $table->uuid('uuid')->unique()->index();
             $table->string('title');
-            $table->float('price');
-            $table->text('description');
-            $table->json('metadata')->nullable();
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 
@@ -29,6 +23,6 @@ return new class () extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('products');
+        Schema::dropIfExists('order_statuses');
     }
 };
