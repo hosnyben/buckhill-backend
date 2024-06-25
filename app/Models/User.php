@@ -63,7 +63,7 @@ class User extends Authenticatable
         ];
     }
 
-    // Retrieve category by uuid
+    // Retrieve user by uuid
     public function getRouteKeyName(): string
     {
         return 'uuid';
