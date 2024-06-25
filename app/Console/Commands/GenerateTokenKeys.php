@@ -24,12 +24,12 @@ class GenerateTokenKeys extends Command
     /**
      * Execute the console command.
      */
-    public function handle()
+    public function handle(): void
     {
         // Ask for the passphrase
         $passphrase = $this->secret('Enter the passphrase for the private key');
         $passphraseConfirm = $this->secret('Confirm the passphrase for the private key');
-        
+
         if ($passphrase !== $passphraseConfirm) {
             $this->error('The passphrases do not match.');
             return;

@@ -24,7 +24,7 @@ class RemoveExpiredTokens extends Command
     /**
      * Execute the console command.
      */
-    public function handle()
+    public function handle(): void
     {
         // Get the current date and time
         $date = new \DateTimeImmutable();

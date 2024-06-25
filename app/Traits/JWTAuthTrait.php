@@ -8,8 +8,13 @@ use Illuminate\Support\Facades\DB;
 
 trait JWTAuthTrait
 {
-    public function createToken($expiration = '+1 week')
+    public function createToken(string $expiration = '+1 week'): string
     {
+        // Ensure $this->uuid is a non-empty string
+        if (empty($this->uuid)) {
+            return '';
+        }
+
         $config = JwtHelper::getJwtConfiguration();
         $date = new \DateTimeImmutable();
         $uniqueID = uniqid();
@@ -39,12 +44,21 @@ trait JWTAuthTrait
         return $token->toString();
     }
 
-    public function destroyToken($tokenString)
+    public function destroyToken(string $tokenString): bool
     {
-        $config = JwtHelper::getJwtConfiguration();
-
         try {
+            $config = JwtHelper::getJwtConfiguration();
+
+            if (empty($tokenString)) {
+                return false;
+            }
+
             $token = $config->parser()->parse($tokenString);
+
+            if (!method_exists($token, 'claims')) {
+                return false;
+            }
+
             $uniqueID = $token->claims()->get('jti');
 
             DB::table('jwt_tokens')->where('unique_id', $uniqueID)->delete();

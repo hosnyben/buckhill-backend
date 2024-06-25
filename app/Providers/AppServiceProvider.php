@@ -25,9 +25,16 @@ class AppServiceProvider extends ServiceProvider
     {
         // Register the JWT guard
         Auth::extend('jwt', function (Application $app, string $name, array $config) {
+            $userProvider = Auth::createUserProvider($config['provider']);
+
+            if (!$userProvider) {
+                // Handle the null case, e.g., throw an exception or provide a default UserProvider
+                throw new \Exception("User provider cannot be null.");
+            }
+
             return new JwtGuard(
-                Auth::createUserProvider($config['provider']),
-                $app['request']
+                $userProvider,
+                $app->make('request')
             );
         });
     }

@@ -2,21 +2,22 @@
 
 namespace App\Guards;
 
+use Lcobucci\JWT\Configuration;
+
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Contracts\Auth\UserProvider;
-use Illuminate\Http\Request;
 
 
 use App\Helpers\JwtHelper;
 
-use Illuminate\Support\Facades\DB;
-
 class JwtGuard implements Guard
 {
     protected $user;
-    protected $provider;
-    protected $request;
-    protected $config;
+    protected UserProvider $provider;
+    protected Request $request;
+    protected Configuration $config;
 
     public function __construct(UserProvider $provider, Request $request)
     {
@@ -38,7 +39,7 @@ class JwtGuard implements Guard
 
     public function user()
     {
-        if ($this->user) {
+        if ($this->hasUser()) {
             return $this->user;
         }
 
@@ -71,7 +72,7 @@ class JwtGuard implements Guard
         return $this->user() ? $this->user()->getAuthIdentifier() : null;
     }
 
-    public function validate(array $credentials = [])
+    public function validate(array $credentials = []): bool
     {
         // This method is not applicable for JWT Guard
         return false;
