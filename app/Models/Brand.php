@@ -12,7 +12,7 @@ class Brand extends Model
 {
     use HasFactory;
     use HasUuids;
-    
+
     protected $primaryKey = 'uuid';
     protected $fillable = ['title', 'slug'];
     protected $hidden = ['id', 'created_at', 'updated_at'];

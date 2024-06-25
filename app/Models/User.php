@@ -6,7 +6,6 @@ namespace App\Models;
 
 use App\Traits\JWTAuthTrait;
 
-use Illuminate\Support\Str;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;

@@ -12,7 +12,7 @@ return new class () extends Migration {
     {
         Schema::create('categories', function (Blueprint $table) {
             $table->id();
-            $table->string('uuid', 36)->unique()->index();
+            $table->uuid('uuid')->unique()->index();
             $table->string('title', 100);
             $table->string('slug', 100)->unique();
             $table->timestamps();
