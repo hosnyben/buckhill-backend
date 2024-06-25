@@ -22,12 +22,12 @@ class OrderFactory extends Factory
     public function definition(): array
     {
         return [
-            'user_uuid' => User::factory(),
-            'order_status_uuid' => OrderStatus::factory(),
+            'user_uuid' => User::inRandomOrder()->first(),
+            'order_status_uuid' => OrderStatus::inRandomOrder()->first(),
             'payment_uuid' => Payments::factory(),
             'products' => [
                 [
-                    'product_uuid' => Product::factory()->create()->uuid,
+                    'product_uuid' => Product::inRandomOrder()->first()->uuid,
                     'quantity' => fake()->numberBetween(1, 10),
                     'price' => fake()->randomFloat(2, 1, 1000),
                 ]
