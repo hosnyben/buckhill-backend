@@ -65,4 +65,10 @@ class User extends Authenticatable
             $user->uuid = (string) Str::uuid(); // Automatically generate and set the UUID
         });
     }
+
+    // Retrieve brand by uuid
+    public function getRouteKeyName(): string
+    {
+        return 'uuid';
+    }
 }
