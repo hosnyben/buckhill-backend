@@ -61,7 +61,12 @@ class JwtGuard implements Guard
                 $this->config->validator()->assert($token, ...$constraints);
             }
 
-            $this->setUser($this->provider->retrieveByCredentials(['uuid' => $token->claims()->get('user_uuid')]));
+            $user = $this->provider->retrieveByCredentials(['uuid' => $token->claims()->get('user_uuid')]);
+
+            if( !$user )
+                return null;
+
+            $this->setUser($user);
             $this->validateToken($token);
 
             return $this->user;
