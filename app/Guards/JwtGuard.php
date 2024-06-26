@@ -9,8 +9,10 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Contracts\Auth\UserProvider;
 
-
 use App\Helpers\JwtHelper;
+
+use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 
 class JwtGuard implements Guard
 {
@@ -43,22 +45,23 @@ class JwtGuard implements Guard
             return $this->user;
         }
 
-        $token = $this->request->bearerToken();
-        $token = $this->config->parser()->parse($token);
-
-        if (!$token) {
-            return null;
-        }
-
         try {
+
+            $token = $this->request->bearerToken();
+
+            if (!$token) {
+                return null;
+            }
+
+            $token = $this->config->parser()->parse($token);
+
             $constraints = $this->config->validationConstraints();
 
             if(!empty($constraints)) {
                 $this->config->validator()->assert($token, ...$constraints);
             }
 
-            $this->user = $this->provider->retrieveByCredentials(['uuid' => $token->claims()->get('user_uuid')]);
-
+            $this->setUser($this->provider->retrieveByCredentials(['uuid' => $token->claims()->get('user_uuid')]));
             $this->validateToken($token);
 
             return $this->user;
@@ -93,13 +96,24 @@ class JwtGuard implements Guard
         $recordExists = DB::table('jwt_tokens')
                             ->where([
                                 'unique_id' => $token->claims()->get('jti'),
-                                'user_id' => $this->user->id
+                                'user_uuid' => $this->user->uuid
                             ])
                             ->where('expires_at', '>', now())
                             ->exists();
 
         if(!$recordExists) {
             throw new \Exception('Invalid token');
+        }
+    }
+
+    public function attempt(array $credentials = [], $remember = false)
+    {
+        $user = User::where('email', $credentials['email'])->first();
+
+        if (!$user || !Hash::check($credentials['password'], $user->password)) {
+            throw new \Exception(__('auth.failed'));
+        } else {
+            $this->setUser($user);
         }
     }
 }

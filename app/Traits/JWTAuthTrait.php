@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\DB;
 
 trait JWTAuthTrait
 {
-    public function createToken(string $expiration = '+1 week'): string
+    public function createToken(string $action = 'authToken', string $expiration = '+1 week'): string
     {
         // Ensure $this->uuid is a non-empty string
         if (empty($this->uuid)) {
@@ -31,41 +31,51 @@ trait JWTAuthTrait
             ->getToken($config->signer(), $config->signingKey()); // Retrieves the generated token
 
         DB::table('jwt_tokens')->insert([
-            'user_id' => $this->id,
+            'user_uuid' => $this->uuid,
             'unique_id' => $uniqueID,
-            'token_title' => "Register Token ".$this->email,
+            'token_title' => $action." ".$this->email,
             'restrictions' => null,
             'permissions' => null,
             'expires_at' => $date->modify($expiration),
             'last_used_at' => null,
-            'refreshed_at' => null
+            'refreshed_at' => null,
+            'created_at' => $date,
+            'updated_at' => $date,
         ]);
+
+        $this->token = $token->toString();
 
         return $token->toString();
     }
 
-    public function destroyToken(string $tokenString): bool
+    public function destroyToken(string $tokenString): void
     {
-        try {
-            $config = JwtHelper::getJwtConfiguration();
+        if (empty($tokenString)) {
+            throw new \Exception('Token string is empty');
+        }
 
-            if (empty($tokenString)) {
-                return false;
-            }
+        $config = JwtHelper::getJwtConfiguration();
+        $token = $config->parser()->parse($tokenString);
 
-            $token = $config->parser()->parse($tokenString);
+        if (!method_exists($token, 'claims')) {
+            throw new \Exception("Invalid Token", 1);
+        }
 
-            if (!method_exists($token, 'claims')) {
-                return false;
-            }
+        // Check if the token belongs to the user
+        $userUUID = $token->claims()->get('user_uuid');
+        $uniqueID = $token->claims()->get('jti');
 
-            $uniqueID = $token->claims()->get('jti');
+        if (!$userUUID || !$uniqueID || $this->uuid !== $userUUID) {
+            throw new \Exception('Invalid token');
+        }
 
-            DB::table('jwt_tokens')->where('unique_id', $uniqueID)->delete();
-
-            return true;
-        } catch (\Exception $e) {
-            return false;
+        if(
+            !DB::table('jwt_tokens')->where([
+                'unique_id' => $uniqueID,
+                'user_uuid' => $this->uuid
+            ])->delete()
+        ) {
+            throw new \Exception('Invalid token');
         }
     }
 }
