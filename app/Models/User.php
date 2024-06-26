@@ -33,7 +33,7 @@ class User extends Authenticatable
         'address',
         'phone_number',
         'is_marketing',
-        'avatar',
+        'avatar_uuid',
     ];
 
     /**
@@ -69,5 +69,16 @@ class User extends Authenticatable
     public function getRouteKeyName(): string
     {
         return 'uuid';
+    }
+
+    // Get orders for the user
+    public function orders() : \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(\App\Models\Order::class);
+    }
+
+    public function avatar() : \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(\App\Models\File::class, 'avatar_uuid', 'uuid');
     }
 }

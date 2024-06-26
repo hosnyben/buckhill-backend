@@ -31,4 +31,19 @@ class Order extends Model
         'address' => 'array',
         'shipping_at' => 'datetime',
     ];
+
+    public function user() : \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(\App\Models\User::class, 'user_uuid', 'uuid');
+    }
+
+    public function orderStatus() : \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(\App\Models\OrderStatus::class);
+    }
+
+    public function payment() : \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(\App\Models\Payment::class);
+    }
 }
