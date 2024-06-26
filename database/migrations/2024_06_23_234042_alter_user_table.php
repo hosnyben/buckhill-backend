@@ -18,8 +18,8 @@ return new class () extends Migration {
             $table->uuid('uuid')->unique()->after('id')->index();
             $table->string('last_name')->after('first_name');
             $table->boolean('is_admin')->default(false)->after('last_name');
-            $table->uuid('avatar')->nullable()->constrained('files', 'uuid')->after('password');
-            $table->string('address')->after('avatar');
+            $table->uuid('avatar_uuid')->nullable()->after('password');
+            $table->string('address')->after('avatar_uuid');
             $table->string('phone_number')->after('address');
             $table->boolean('is_marketing')->default(false)->after('phone_number');
             $table->timestamp('last_login_at')->nullable();
@@ -37,7 +37,7 @@ return new class () extends Migration {
             $table->renameColumn('first_name', 'name');
             $table->dropColumn('last_name');
             $table->dropColumn('is_admin');
-            $table->dropColumn('avatar');
+            $table->dropColumn('avatar_uuid');
             $table->dropColumn('address');
             $table->dropColumn('phone_number');
             $table->dropColumn('is_marketing');

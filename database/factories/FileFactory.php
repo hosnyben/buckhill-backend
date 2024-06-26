@@ -4,6 +4,8 @@ namespace Database\Factories;
 
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Alirezasedghi\LaravelImageFaker\ImageFaker;
+use Alirezasedghi\LaravelImageFaker\Services\LoremFlickr;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\File>
@@ -17,7 +19,9 @@ class FileFactory extends Factory
      */
     public function definition(): array
     {
-        $path = Storage::disk('files')->putFile('/', fake()->image());
+        $image = (new ImageFaker(new LoremFlickr()))->image();
+
+        $path = Storage::disk('files')->putFile('/', $image);
 
         return [
             'name' => fake()->sentence(),

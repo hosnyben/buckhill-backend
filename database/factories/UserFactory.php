@@ -30,7 +30,7 @@ class UserFactory extends Factory
             'email' => fake()->safeEmail(),
             'email_verified_at' => now(),
             'password' => Hash::make('userpassword'),
-            'avatar' => File::factory(),
+            'avatar_uuid' => File::factory(),
             'address' => fake()->address(),
             'phone_number' => fake()->phoneNumber(),
             'is_admin' => false,

@@ -3,7 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\User;
-use App\Models\Payments;
+use App\Models\Payment;
 use App\Models\Product;
 use App\Models\OrderStatus;
 
@@ -24,7 +24,7 @@ class OrderFactory extends Factory
         return [
             'user_uuid' => User::inRandomOrder()->first(),
             'order_status_uuid' => OrderStatus::inRandomOrder()->first(),
-            'payment_uuid' => Payments::factory(),
+            'payment_uuid' => Payment::factory(),
             'products' => [
                 [
                     'product_uuid' => Product::inRandomOrder()->first()->uuid,

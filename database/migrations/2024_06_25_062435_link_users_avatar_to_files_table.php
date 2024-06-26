@@ -11,7 +11,7 @@ return new class () extends Migration {
     public function up(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->foreign('avatar')->references('uuid')->on('files')->onDelete('set null');
+            $table->foreign('avatar_uuid')->references('uuid')->on('files')->onDelete('set null');
         });
     }
 
@@ -21,7 +21,7 @@ return new class () extends Migration {
     public function down(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->dropForeign(['avatar']);
+            $table->dropForeign(['avatar_uuid']);
         });
     }
 };
