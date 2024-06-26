@@ -31,7 +31,7 @@ class UserEdit extends FormRequest
             ],
             'password' => 'string|min:8',
             'password_confirmation' => 'string|same:password',
-            'avatar' => 'uuid|exists:files,uuid',
+            'avatar_uuid' => 'uuid|exists:files,uuid',
             'address' => 'string|max:255',
             'phone_number' => 'string|max:255',
             'is_marketing' => 'boolean'

@@ -20,12 +20,26 @@ Route::prefix('admin')->group(function () {
             Route::match(['get', 'head'], '/user-listing', [UserController::class, 'index'])->name('userAdmin.userListing');
 
             // Handle 404 route model binding
-            Route::missing(function (Request $request) {
+            Route::put('/user-edit/{user}', [UserController::class, 'update'])->name('userAdmin.userEdit')->missing(function (Request $request) {
                 return response()->apiError(new Exception('User not found'), Response::HTTP_NOT_FOUND);
-            })->group(function () {
-                Route::put('/user-edit/{user}', [UserController::class, 'update'])->name('userAdmin.userEdit');
-                Route::delete('/user-delete/{user}', [UserController::class, 'destroy'])->name('userAdmin.userDelete');
             });
+            Route::delete('/user-delete/{user}', [UserController::class, 'destroy'])->name('userAdmin.userDelete');
         });
     });
+});
+
+Route::prefix('user')->group(function () {
+    Route::middleware('auth:api')->group(function () {
+        Route::match(['get', 'head'], '/', [UserController::class, 'show'])->name('user.show');
+        Route::delete('/', [UserController::class, 'destroy'])->name('user.destroy');
+        Route::get('/orders', [UserController::class, 'listOrders'])->name('user.orders');
+        
+        Route::put('/edit', [UserController::class, 'edit'])->name('user.edit');
+        Route::get('/logout', [UserController::class, 'logout'])->name('user.logout');
+    });
+
+    Route::post('/login', [UserController::class, 'login'])->name('user.login');
+    Route::post('/create', [UserController::class, 'login'])->name('user.create');
+    Route::post('/forgot-password', [UserController::class, 'forgotPassword'])->name('user.forgotPassword');
+    Route::post('/reset-password-token', [UserController::class, 'resetPassword'])->name('user.resetPassword');
 });

@@ -22,6 +22,7 @@ class UserResource extends JsonResource
             'address' => $this->address,
             'phone_number' => $this->phone_number,
             'is_marketing' => $this->is_marketing,
+            'avatar' => $this->avatar?->path,
         ];
 
         if($this->token) {

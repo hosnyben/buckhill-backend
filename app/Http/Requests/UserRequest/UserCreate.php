@@ -27,7 +27,7 @@ class UserCreate extends FormRequest
             'email' => 'required|email|unique:users,email',
             'password' => 'required|string|min:8',
             'password_confirmation' => 'required|string|same:password',
-            'avatar' => 'nullable|uuid|exists:files,uuid',
+            'avatar_uuid' => 'nullable|uuid|exists:files,uuid',
             'address' => 'required|string|max:255',
             'phone_number' => 'required|string|max:255',
             'is_marketing' => 'boolean'

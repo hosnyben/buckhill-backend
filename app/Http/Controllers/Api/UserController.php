@@ -15,6 +15,7 @@ use App\Http\Requests\UserRequest\UserEdit;
 
 // Import Resource
 use App\Http\Resources\UserResource;
+use App\Http\Resources\OrderResource;
 
 class UserController extends Controller
 {
@@ -80,11 +81,15 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(User $user)
+    public function destroy($uuid = null)
     {
         try {
             // Delete the user
-            $user->delete();
+            if( $uuid ){
+                $user = User::findOrFail($uuid);
+                $user->delete();
+            } else
+                auth()->user()->delete();
 
             return response()->apiSuccess([]);
         } catch (\Exception $e) {
@@ -128,6 +133,33 @@ class UserController extends Controller
             auth()->user()->destroyToken($token);
 
             return response()->apiSuccess([]);
+        } catch (\Exception $e) {
+            return response()->apiError($e, Response::HTTP_UNAUTHORIZED);
+        }
+    }
+
+    /**
+     * Show the user.
+     */
+
+    public function show()
+    {
+        try {
+            return response()->apiSuccess(new UserResource(auth()->user()));
+        } catch (\Exception $e) {
+            return response()->apiError($e, Response::HTTP_UNAUTHORIZED);
+        }
+    }
+
+    /**
+     * List the orders of the user.
+     */
+
+    public function listOrders()
+    {
+        try {
+            // Get the orders of the user in resources format
+            return response()->apiSuccess(OrderResource::collection(auth()->user()->orders));
         } catch (\Exception $e) {
             return response()->apiError($e, Response::HTTP_UNAUTHORIZED);
         }
