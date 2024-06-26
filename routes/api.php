@@ -18,8 +18,8 @@ Route::prefix('admin')->group(function () {
         Route::middleware('can:manage-admin-accounts')->group(function () {
             Route::post('/create', [UserController::class, 'create'])->name('userAdmin.create');
             Route::match(['get', 'head'], '/user-listing', [UserController::class, 'index'])->name('userAdmin.userListing');
-            
-            // Handle 404 route model binding 
+
+            // Handle 404 route model binding
             Route::missing(function (Request $request) {
                 return response()->apiError(new Exception('User not found'), Response::HTTP_NOT_FOUND);
             })->group(function () {
