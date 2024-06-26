@@ -22,13 +22,14 @@ services:
     container_name: mysql
     restart: unless-stopped
     environment:
-      MYSQL_DATABASE: petshop_db
-      MYSQL_ROOT_PASSWORD: password
-      MYSQL_USER: petshop_user
-      MYSQL_PASSWORD: password 
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_USER: ${DB_USERNAME}
+      MYSQL_PASSWORD: ${DB_PASSWORD} 
       MYSQL_ROOT_HOST: '%' # Allow remote access
     volumes:
       - mysql-data:/var/lib/mysql
+      - ./Docker/create-test-database.sh:/docker-entrypoint-initdb.d/10-create-testing-database.sh
     networks:
       - petshop
 
