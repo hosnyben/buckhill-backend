@@ -32,7 +32,6 @@ class User extends Authenticatable
         'password',
         'address',
         'phone_number',
-        'is_marketing',
         'avatar_uuid',
     ];
 
@@ -72,12 +71,12 @@ class User extends Authenticatable
     }
 
     // Get orders for the user
-    public function orders() : \Illuminate\Database\Eloquent\Relations\HasMany
+    public function orders(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(\App\Models\Order::class);
     }
 
-    public function avatar() : \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function avatar(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(\App\Models\File::class, 'avatar_uuid', 'uuid');
     }

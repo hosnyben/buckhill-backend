@@ -12,10 +12,16 @@ use Illuminate\Http\Response;
 use App\Http\Requests\UserRequest\UserLogin;
 use App\Http\Requests\UserRequest\UserCreate;
 use App\Http\Requests\UserRequest\UserEdit;
+use App\Http\Requests\UserRequest\UserPasswordReset;
 
 // Import Resource
 use App\Http\Resources\UserResource;
 use App\Http\Resources\OrderResource;
+
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\DB;
+
+use App\Notifications\PasswordResetCreated;
 
 class UserController extends Controller
 {
@@ -63,13 +69,19 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UserEdit $request, User $user)
+    public function update(UserEdit $request, $uuid = null)
     {
         try {
             // Validate the request
             $validated = $request->validated();
 
             // Update the user
+            if($uuid) {
+                $user = User::findOrFail($uuid);
+            } else {
+                $user = auth()->user();
+            }
+
             $user->update($validated);
 
             return response()->apiSuccess(new UserResource($user));
@@ -85,11 +97,12 @@ class UserController extends Controller
     {
         try {
             // Delete the user
-            if( $uuid ){
+            if($uuid) {
                 $user = User::findOrFail($uuid);
                 $user->delete();
-            } else
+            } else {
                 auth()->user()->delete();
+            }
 
             return response()->apiSuccess([]);
         } catch (\Exception $e) {
@@ -100,7 +113,6 @@ class UserController extends Controller
     /**
      * Authenticate the user.
      */
-
     public function login(UserLogin $request)
     {
         try {
@@ -122,7 +134,6 @@ class UserController extends Controller
     /**
      * Logout the user.
      */
-
     public function logout(Request $request)
     {
         try {
@@ -141,7 +152,6 @@ class UserController extends Controller
     /**
      * Show the user.
      */
-
     public function show()
     {
         try {
@@ -154,7 +164,6 @@ class UserController extends Controller
     /**
      * List the orders of the user.
      */
-
     public function listOrders()
     {
         try {
@@ -162,6 +171,76 @@ class UserController extends Controller
             return response()->apiSuccess(OrderResource::collection(auth()->user()->orders));
         } catch (\Exception $e) {
             return response()->apiError($e, Response::HTTP_UNAUTHORIZED);
+        }
+    }
+
+    /**
+     * Forgot password
+     */
+    public function forgotPassword(Request $request)
+    {
+        try {
+            // Validate the request
+            $request->validate([
+                'email' => 'required|email'
+            ]);
+
+            $user = User::where('email', $request->input('email'))->first();
+
+            if($user) {
+                // Remove existing tokens if any
+                DB::table('password_resets')->where('email', $user->email)->delete();
+
+                // Create a new token
+                $token = Str::random(60);
+                DB::table('password_resets')->insert([
+                    'email' => $user->email,
+                    'token' => $token,
+                    'created_at' => now()
+                ]);
+
+                // Queue the notification
+                $user->notify(new PasswordResetCreated($token));
+            }
+
+            // For security reasons, we will always return success
+            return response()->apiSuccess([]);
+        } catch (\Exception $e) {
+            return response()->apiError($e, Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
+    }
+
+    /**
+     * Reset password
+     */
+
+    public function resetPassword(UserPasswordReset $request, $token)
+    {
+        try {
+            // Validate the request
+            $validated = $request->validated();
+
+            // Check if token from password_resets table exists and retrieve it, the token created_at should be within 1 hour
+            $resetToken = DB::table('password_resets')->where('token', $token)->where('created_at', '>=', now()->subHour())->first();
+
+            if($resetToken) {
+                // Find the user
+                $user = User::where('email', $resetToken->email)->first();
+
+                // Update the password
+                // No need to hash the password as it will be hashed automatically ($casts in User model)
+                $user->update(['password' => $validated['password']]);
+
+                // Remove the token
+                DB::table('password_resets')->where('token', $token)->delete();
+            } else {
+                return response()->apiError('Invalid token', Response::HTTP_UNPROCESSABLE_ENTITY);
+            }
+
+            // For security reasons, we will always return success
+            return response()->apiSuccess([]);
+        } catch (\Exception $e) {
+            return response()->apiError($e, Response::HTTP_UNPROCESSABLE_ENTITY);
         }
     }
 }
