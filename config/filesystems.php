@@ -46,8 +46,8 @@ return [
 
         'files' => [
             'driver' => 'local',
-            'root' => storage_path('app/pet-shop'),
-            'url' => env('APP_URL').'/files',
+            'root' => storage_path('app/public/pet-shop'),
+            'url' => env('APP_URL').'/storage/pet-shop',
             'visibility' => 'public',
             'throw' => false,
         ],

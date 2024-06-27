@@ -1,14 +1,14 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Api\UserController;
 
-// Sanitize all routes
+use App\Http\Controllers\Api\UserController;
+use App\Http\Controllers\Api\PostController;
+use App\Http\Controllers\Api\PromotionController;
+
 Route::prefix('admin')->group(function () {
-    // Define the 'api/v1/admin' prefixed routes here
     Route::post('/login', [UserController::class, 'login'])->name('userAdmin.login');
 
-    // CRUD
     Route::middleware('auth:api')->group(function () {
         Route::match(['get', 'head'], '/logout', [UserController::class, 'logout'])->name('userAdmin.logout');
 
@@ -35,4 +35,13 @@ Route::prefix('user')->group(function () {
     Route::post('/create', [UserController::class, 'create'])->name('user.create');
     Route::post('/forgot-password', [UserController::class, 'forgotPassword'])->name('user.forgotPassword');
     Route::post('/reset-password-token/{token}', [UserController::class, 'resetPassword'])->name('user.resetPassword');
+});
+
+Route::prefix('main')->group(function () {
+    Route::prefix('blog')->group(function () {
+        Route::get('/', [PostController::class, 'index'])->name('blog.index');
+        Route::get('/{post}', [PostController::class, 'show'])->name('blog.show');
+    });
+
+    Route::get('/promotions', [PromotionController::class, 'index'])->name('promotions.index');
 });
