@@ -32,16 +32,19 @@ class Promotion extends Model
     // Get cover attribute
     public function getCoverAttribute(): ?string
     {
-        if( !$this->metadata )
+        if(!$this->metadata) {
             return null;
+        }
 
-        if( !array_key_exists('image', $this->metadata) )
+        if(!array_key_exists('image', $this->metadata)) {
             return null;
+        }
 
         $file = \App\Models\File::where('uuid', $this->metadata['image'])->first();
 
-        if( !$file )
+        if(!$file) {
             return null;
+        }
 
         return Storage::disk('files')->url($file->path);
     }
