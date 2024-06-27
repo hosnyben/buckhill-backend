@@ -14,6 +14,10 @@ class PaymentResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return parent::toArray($request);
+        return [
+            'uuid' => $this->uuid,
+            'type' => $this->type,
+            'details' => json_decode($this->details),
+        ];
     }
 }

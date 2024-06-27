@@ -269,7 +269,7 @@ class AdminUserTest extends TestCase
         ]);
 
         // check if the response is successful and the response has a message
-        $response->assertStatus(404)->assertJsonStructure([
+        $response->assertStatus(422)->assertJsonStructure([
             'success',
             'data',
             'error',

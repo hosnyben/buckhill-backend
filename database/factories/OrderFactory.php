@@ -27,7 +27,7 @@ class OrderFactory extends Factory
             'payment_uuid' => Payment::factory(),
             'products' => [
                 [
-                    'product_uuid' => Product::inRandomOrder()->first()->uuid,
+                    'uuid' => Product::inRandomOrder()->first()->uuid,
                     'quantity' => fake()->numberBetween(1, 10),
                     'price' => fake()->randomFloat(2, 1, 1000),
                 ]
