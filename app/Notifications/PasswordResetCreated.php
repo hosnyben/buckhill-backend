@@ -16,7 +16,7 @@ class PasswordResetCreated extends Notification implements ShouldQueue
     /**
      * Create a new notification instance.
      */
-    public function __construct($token)
+    public function __construct(string $token)
     {
         $this->token = $token;
     }

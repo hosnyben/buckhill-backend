@@ -5,6 +5,17 @@ namespace App\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
+/**
+ * @property string $uuid
+ * @property string $first_name
+ * @property string $last_name
+ * @property string $email
+ * @property string $address
+ * @property string $phone_number
+ * @property bool $is_marketing
+ * @property \App\Models\File|null $avatar
+ * @property string|null $token
+ */
 class UserResource extends JsonResource
 {
     /**
@@ -22,7 +33,7 @@ class UserResource extends JsonResource
             'address' => $this->address,
             'phone_number' => $this->phone_number,
             'is_marketing' => $this->is_marketing,
-            'avatar' => $this->avatar?->path,
+            'avatar' => $this->avatar ? $this->avatar->path : null,
         ];
 
         if($this->token) {
