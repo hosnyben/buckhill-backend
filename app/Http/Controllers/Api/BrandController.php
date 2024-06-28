@@ -16,6 +16,7 @@ class BrandController extends Controller
 {
     /**
      * Display a listing of the resource.
+     * @return \Illuminate\Http\JsonResponse
      */
     public function index()
     {
@@ -29,6 +30,8 @@ class BrandController extends Controller
 
     /**
      * Display the specified resource.
+     * @param Brand $brand
+     * @return \Illuminate\Http\JsonResponse
      */
     public function show(Brand $brand)
     {
@@ -41,6 +44,8 @@ class BrandController extends Controller
 
     /**
      * Show the form for creating a new resource.
+     * @param BrandCreate $request
+     * @return \Illuminate\Http\JsonResponse
      */
     public function create(BrandCreate $request)
     {
@@ -56,6 +61,9 @@ class BrandController extends Controller
 
     /**
      * Update the specified resource in storage.
+     * @param BrandEdit $request
+     * @param Brand $brand
+     * @return \Illuminate\Http\JsonResponse
      */
     public function update(BrandEdit $request, Brand $brand)
     {
@@ -73,6 +81,8 @@ class BrandController extends Controller
 
     /**
      * Remove the specified resource from storage.
+     * @param Brand $brand
+     * @return \Illuminate\Http\JsonResponse
      */
     public function destroy(Brand $brand)
     {

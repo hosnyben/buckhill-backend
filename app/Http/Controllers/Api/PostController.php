@@ -11,6 +11,7 @@ class PostController extends Controller
 {
     /**
      * Display a listing of the resource.
+     * @return \Illuminate\Http\JsonResponse
      */
     public function index()
     {
@@ -26,6 +27,8 @@ class PostController extends Controller
 
     /**
      * Display the specified resource.
+     * @param Post $post
+     * @return \Illuminate\Http\JsonResponse
      */
     public function show(Post $post)
     {

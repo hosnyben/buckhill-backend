@@ -27,6 +27,7 @@ class UserController extends Controller
 {
     /**
      * Display a listing of the resource.
+     * @return \Illuminate\Http\JsonResponse
      */
     public function index()
     {
@@ -41,6 +42,8 @@ class UserController extends Controller
     }
     /**
      * Store a newly created resource in storage.
+     * @param UserCreate $request
+     * @return \Illuminate\Http\JsonResponse
      */
     public function create(UserCreate $request)
     {
@@ -52,7 +55,7 @@ class UserController extends Controller
             $user = User::create($validated);
 
             // If route name is admin route, then mark it as admin
-            if ($request->route()->getName() === 'userAdmin.create') {
+            if ($request->route()?->getName() === 'userAdmin.create') {
                 $user->is_admin = true;
                 $user->save();
             }
@@ -68,6 +71,9 @@ class UserController extends Controller
 
     /**
      * Update the specified resource in storage.
+     * @param UserEdit $request
+     * @param string $uuid
+     * @return \Illuminate\Http\JsonResponse
      */
     public function update(UserEdit $request, $uuid = null)
     {
@@ -82,7 +88,7 @@ class UserController extends Controller
                 $user = auth()->user();
             }
 
-            $user->update($validated);
+            $user?->update($validated);
 
             return response()->apiSuccess(new UserResource($user));
         } catch (\Exception $e) {
@@ -92,6 +98,8 @@ class UserController extends Controller
 
     /**
      * Remove the specified resource from storage.
+     * @param string $uuid
+     * @return \Illuminate\Http\JsonResponse
      */
     public function destroy($uuid = null)
     {
@@ -101,7 +109,7 @@ class UserController extends Controller
                 $user = User::findOrFail($uuid);
                 $user->delete();
             } else {
-                auth()->user()->delete();
+                auth()->user()?->delete();
             }
 
             return response()->apiSuccess([]);
@@ -112,6 +120,8 @@ class UserController extends Controller
 
     /**
      * Authenticate the user.
+     * @param UserLogin $request
+     * @return \Illuminate\Http\JsonResponse
      */
     public function login(UserLogin $request)
     {
@@ -123,9 +133,9 @@ class UserController extends Controller
             auth()->attempt($validated);
 
             // Generate a token
-            auth()->user()->createToken('authToken');
+            auth()->user()?->createToken('authToken');
 
-            return response()->apiSuccess(['token' => auth()->user()->token]);
+            return response()->apiSuccess(['token' => auth()->user()?->token]);
         } catch (\Exception $e) {
             return response()->apiError($e, Response::HTTP_UNAUTHORIZED);
         }
@@ -133,6 +143,8 @@ class UserController extends Controller
 
     /**
      * Logout the user.
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
      */
     public function logout(Request $request)
     {
@@ -141,7 +153,9 @@ class UserController extends Controller
             $token = $request->bearerToken();
 
             // Destroy the token
-            auth()->user()->destroyToken($token);
+            if($token) {
+                auth()->user()?->destroyToken($token);
+            }
 
             return response()->apiSuccess([]);
         } catch (\Exception $e) {
@@ -151,6 +165,7 @@ class UserController extends Controller
 
     /**
      * Show the user.
+     * @return \Illuminate\Http\JsonResponse
      */
     public function show()
     {
@@ -163,12 +178,13 @@ class UserController extends Controller
 
     /**
      * List the orders of the user.
+     * @return \Illuminate\Http\JsonResponse
      */
     public function listOrders()
     {
         try {
             // Get the orders of the user in resources format
-            return response()->apiSuccess(OrderResource::collection(auth()->user()->orders));
+            return response()->apiSuccess(OrderResource::collection(auth()->user()?->orders));
         } catch (\Exception $e) {
             return response()->apiError($e, Response::HTTP_UNAUTHORIZED);
         }
@@ -176,6 +192,8 @@ class UserController extends Controller
 
     /**
      * Forgot password
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
      */
     public function forgotPassword(Request $request)
     {
@@ -212,6 +230,9 @@ class UserController extends Controller
 
     /**
      * Reset password
+     * @param string $token
+     * @param UserPasswordReset $request
+     * @return \Illuminate\Http\JsonResponse
      */
 
     public function resetPassword(UserPasswordReset $request, $token)
@@ -223,9 +244,13 @@ class UserController extends Controller
             // Check if token from password_resets table exists and retrieve it, the token created_at should be within 1 hour
             $resetToken = DB::table('password_resets')->where('token', $token)->where('created_at', '>=', now()->subHour())->first();
 
-            if($resetToken) {
+            if($resetToken && property_exists($resetToken, 'email')) {
                 // Find the user
                 $user = User::where('email', $resetToken->email)->first();
+
+                if(! $user) {
+                    return response()->apiError(new \Exception('Invalid token'), Response::HTTP_UNPROCESSABLE_ENTITY);
+                }
 
                 // Update the password
                 // No need to hash the password as it will be hashed automatically ($casts in User model)
@@ -234,7 +259,7 @@ class UserController extends Controller
                 // Remove the token
                 DB::table('password_resets')->where('token', $token)->delete();
             } else {
-                return response()->apiError('Invalid token', Response::HTTP_UNPROCESSABLE_ENTITY);
+                return response()->apiError(new \Exception('Invalid token'), Response::HTTP_UNPROCESSABLE_ENTITY);
             }
 
             // For security reasons, we will always return success
