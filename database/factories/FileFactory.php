@@ -19,9 +19,12 @@ class FileFactory extends Factory
      */
     public function definition(): array
     {
-        $image = (new ImageFaker(new LoremFlickr()))->image();
-
-        $path = Storage::disk('files')->putFile('/', $image);
+        if(config('app.env') != 'testing') { // Do not use image faker in testing environment
+            $image = (new ImageFaker(new LoremFlickr()))->image();
+            $path = Storage::disk('files')->putFile('/', $image);
+        } else {
+            $path = 'sample.png';
+        }
 
         return [
             'name' => fake()->sentence(),
