@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\PostController;
 use App\Http\Controllers\Api\PromotionController;
+use App\Http\Controllers\Api\BrandController;
 
 Route::prefix('admin')->group(function () {
     Route::post('/login', [UserController::class, 'login'])->name('userAdmin.login');
@@ -28,7 +29,7 @@ Route::prefix('user')->group(function () {
         Route::delete('/', [UserController::class, 'destroy'])->name('user.destroy');
         Route::get('/orders', [UserController::class, 'listOrders'])->name('user.orders');
         Route::get('/logout', [UserController::class, 'logout'])->name('user.logout');
-        Route::put('/edit', [UserController::class, 'update'])->name('user.edit');
+        Route::put('/edit', [UserController::class, 'update'])->name('user.update');
     });
 
     Route::post('/login', [UserController::class, 'login'])->name('user.login');
@@ -45,3 +46,14 @@ Route::prefix('main')->group(function () {
 
     Route::get('/promotions', [PromotionController::class, 'index'])->name('promotions.index');
 });
+
+Route::prefix('brand')->group(function () {
+    Route::match(['get', 'head'], '/{brand}', [BrandController::class, 'show'])->name('brand.show');
+
+    Route::middleware(['auth:api','can:manage-admin-accounts'])->group(function () {
+        Route::post('/create', [BrandController::class, 'create'])->name('brand.create');
+        Route::match(['put', 'patch'], '/{brand}', [BrandController::class, 'update'])->name('brand.update');
+        Route::delete('/{brand}', [BrandController::class, 'destroy'])->name('brand.delete');
+    });
+});
+Route::match(['get', 'head'], '/brands', [BrandController::class, 'index'])->name('brand.index');

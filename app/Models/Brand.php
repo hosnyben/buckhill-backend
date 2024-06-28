@@ -22,7 +22,7 @@ class Brand extends Model
         static::creating(function ($brand) {
             // if slug is missing on creation, generate it
             if(empty($brand->slug)) {
-                $brand->slug = Str::slug($brand->title);
+                $brand->slug = Str::slug($brand->title.'-'.now()->format('Y-m-d').'-'.rand(1000, 9999));
             }
         });
     }
@@ -31,11 +31,5 @@ class Brand extends Model
     public function getRouteKeyName(): string
     {
         return 'slug';
-    }
-
-    // Prevent slug to be in a different format
-    public function setSlugAttribute(string $value): void
-    {
-        $this->attributes['slug'] = Str::slug($value);
     }
 }
