@@ -120,7 +120,7 @@ class UserTest extends TestCase
         $token = $this->createUser()->createToken('registerToken');
 
         // get in route name admin.userEdit bearer token auth
-        $response = $this->withToken($token)->putJson(route('user.edit'), [
+        $response = $this->withToken($token)->putJson(route('user.update'), [
             'email' => 'john.doe.new@example.com',
             'phone_number' => '666-1234'
         ]);
@@ -146,7 +146,7 @@ class UserTest extends TestCase
         $userToEditFrom = $this->createUser(['john.doe@example.com','password']);
 
         // get in route name admin.userEdit bearer token auth
-        $response = $this->withToken($token)->putJson(route('user.edit'), [
+        $response = $this->withToken($token)->putJson(route('user.update'), [
             'email' => 'john.doe@example.com',
             'phone_number' => '666-1234'
         ]);
@@ -168,7 +168,7 @@ class UserTest extends TestCase
         $token = $user->createToken('registerToken');
 
         // get in route name admin.userEdit bearer token auth
-        $response = $this->withToken('wrongtoken')->putJson(route('user.edit'), [
+        $response = $this->withToken('wrongtoken')->putJson(route('user.update'), [
             'email' => 'jane.doe@example.com',
             'phone_number' => '666-1234'
         ]);

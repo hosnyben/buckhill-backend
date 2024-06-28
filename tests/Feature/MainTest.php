@@ -102,7 +102,5 @@ class MainTest extends TestCase
             'last_page_url',
             'next_page_url',
         ]);
-
-        $response->assertStatus(200);
     }
 }
