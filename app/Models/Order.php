@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Order extends Model
 {
@@ -32,18 +33,27 @@ class Order extends Model
         'shipping_at' => 'datetime',
     ];
 
-    public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    /**
+     * @return BelongsTo<User, Order>
+     */
+    public function user(): BelongsTo
     {
-        return $this->belongsTo(\App\Models\User::class, 'user_uuid', 'uuid');
+        return $this->belongsTo(User::class, 'user_uuid', 'uuid');
     }
 
-    public function orderStatus(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    /**
+     * @return BelongsTo<OrderStatus, Order>
+     */
+    public function orderStatus(): BelongsTo
     {
-        return $this->belongsTo(\App\Models\OrderStatus::class);
+        return $this->belongsTo(OrderStatus::class);
     }
 
-    public function payment(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    /**
+     * @return BelongsTo<Payment, Order>
+     */
+    public function payment(): BelongsTo
     {
-        return $this->belongsTo(\App\Models\Payment::class);
+        return $this->belongsTo(Payment::class);
     }
 }

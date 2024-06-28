@@ -18,6 +18,7 @@ class User extends Authenticatable
     use JWTAuthTrait;
     use HasUuids;
 
+    public string $token = '';
     protected $primaryKey = 'uuid';
 
     /**
@@ -70,14 +71,19 @@ class User extends Authenticatable
         return 'uuid';
     }
 
-    // Get orders for the user
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany<Order>
+     */
     public function orders(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
-        return $this->hasMany(\App\Models\Order::class);
+        return $this->hasMany(Order::class);
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo<File, User>
+     */
     public function avatar(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
-        return $this->belongsTo(\App\Models\File::class, 'avatar_uuid', 'uuid');
+        return $this->belongsTo(File::class, 'avatar_uuid', 'uuid');
     }
 }
