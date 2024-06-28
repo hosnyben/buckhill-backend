@@ -27,7 +27,7 @@ class UserEdit extends FormRequest
             'last_name' => 'string|max:255',
             'email' => [
                 'email',
-                Rule::unique('users', 'email')->ignore(auth()->user()->id),
+                Rule::unique('users', 'email')->ignore(auth()->user()?->id),
             ],
             'password' => 'string|min:8',
             'password_confirmation' => 'string|same:password',
