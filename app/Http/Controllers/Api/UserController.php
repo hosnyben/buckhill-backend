@@ -96,7 +96,7 @@ class UserController extends Controller
      *         request="Register",
      *         description="Register with user details",
      *         required=true,
-     * 
+     *
      *         @OA\MediaType(
      *             mediaType="application/x-www-form-urlencoded",
      *             @OA\Schema(
@@ -186,7 +186,7 @@ class UserController extends Controller
      *         request="Register",
      *         description="Register with user details",
      *         required=true,
-     * 
+     *
      *         @OA\MediaType(
      *             mediaType="application/x-www-form-urlencoded",
      *             @OA\Schema(
@@ -288,7 +288,7 @@ class UserController extends Controller
      * @param UserEdit $request
      * @param string $uuid
      * @return \Illuminate\Http\JsonResponse
-     * 
+     *
      * @OA\Put(
      *     path="/api/v1/admin/user-edit/{uuid}",
      *     operationId="userAdmin.userEdit",
@@ -309,7 +309,7 @@ class UserController extends Controller
      *         request="Edit",
      *         description="Update user details",
      *         required=true,
-     * 
+     *
      *         @OA\MediaType(
      *             mediaType="application/x-www-form-urlencoded",
      *             @OA\Schema(
@@ -387,7 +387,7 @@ class UserController extends Controller
      *         )
      *     )
      * )
-     * 
+     *
      * @OA\Put(
      *     path="/api/v1/user/edit/",
      *     operationId="user.update",
@@ -395,12 +395,12 @@ class UserController extends Controller
      *     summary="Edit authenticated user",
      *     description="Edit authenticated user endpoint and receive the confirmation",
      *     security={{"bearerAuth":{}}},
-     * 
+     *
      *     @OA\RequestBody(
      *         request="Edit",
      *         description="Update user details",
      *         required=true,
-     * 
+     *
      *         @OA\MediaType(
      *             mediaType="application/x-www-form-urlencoded",
      *             @OA\Schema(
@@ -497,7 +497,7 @@ class UserController extends Controller
      * Remove the specified resource from storage.
      * @param string $uuid
      * @return \Illuminate\Http\JsonResponse
-     * 
+     *
      * @OA\Delete(
      *     path="/api/v1/admin/user-delete/{uuid}",
      *     operationId="userAdmin.userDelete",
@@ -536,7 +536,7 @@ class UserController extends Controller
      *         )
      *     )
      * )
-     * 
+     *
      * @OA\Delete(
      *     path="/api/v1/user/",
      *     operationId="user.destroy",
@@ -544,7 +544,7 @@ class UserController extends Controller
      *     summary="Delete authenticated user",
      *     description="Delete authenticated user endpoint and receive the confirmation",
      *     security={{"bearerAuth":{}}},
-     * 
+     *
      *     @OA\Response(
      *         response="200",
      *         description="OK",
@@ -589,12 +589,12 @@ class UserController extends Controller
      *     tags={"Admin endpoint"},
      *     summary="Login as admin user",
      *     description="Login as admin user endpoint and receive the token",
-     * 
+     *
      *     @OA\RequestBody(
      *         request="Login",
      *         description="Login using Email/Password",
      *         required=true,
-     * 
+     *
      *         @OA\MediaType(
      *             mediaType="application/x-www-form-urlencoded",
      *             @OA\Schema(
@@ -630,19 +630,19 @@ class UserController extends Controller
      *         )
      *     )
      * )
-     * 
+     *
      * @OA\Post(
      *     path="/api/v1/user/login",
      *     operationId="user.login",
      *     tags={"User endpoint"},
      *     summary="Login as user",
      *     description="Login as user endpoint and receive the token",
-     * 
+     *
      *     @OA\RequestBody(
      *         request="CreateBrand",
      *         description="Create brand request body",
      *         required=true,
-     * 
+     *
      *         @OA\MediaType(
      *             mediaType="application/x-www-form-urlencoded",
      *             @OA\Schema(
@@ -691,8 +691,8 @@ class UserController extends Controller
             // Generate a token
             // Check if admin endpoint or user endpoint
             if (
-                ($request->route()?->getName() === 'userAdmin.login' && auth()->user()?->is_admin) || 
-                ($request->route()?->getName() === 'user.login' && ! auth()->user()?->is_admin)   
+                ($request->route()?->getName() === 'userAdmin.login' && auth()->user()?->is_admin) ||
+                ($request->route()?->getName() === 'user.login' && ! auth()->user()?->is_admin)
             ) {
                 auth()->user()?->createToken('authToken');
             } else {
@@ -887,12 +887,12 @@ class UserController extends Controller
      *     tags={"User endpoint"},
      *     summary="Request reset password",
      *     description="Request reset password endpoint and receive the token",
-     * 
+     *
      *     @OA\RequestBody(
      *         request="Forget Password",
      *         description="Request password using email",
      *         required=true,
-     * 
+     *
      *         @OA\MediaType(
      *             mediaType="application/x-www-form-urlencoded",
      *             @OA\Schema(
@@ -981,7 +981,7 @@ class UserController extends Controller
      *         request="Reset password",
      *         description="Reset password using token path",
      *         required=true,
-     * 
+     *
      *         @OA\MediaType(
      *             mediaType="application/x-www-form-urlencoded",
      *             @OA\Schema(

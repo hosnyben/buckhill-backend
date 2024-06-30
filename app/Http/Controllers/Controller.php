@@ -7,7 +7,7 @@ namespace App\Http\Controllers;
  *    title="Pet Shop API by Housni BENABID",
  *    version="1.0.0",
  * )
- * 
+ *
  * @OA\SecurityScheme(
  *     securityScheme="bearerAuth",
  *     type="http",

@@ -111,7 +111,7 @@ class BrandController extends Controller
      *         request="CreateBrand",
      *         description="Create brand request body",
      *         required=true,
-     * 
+     *
      *         @OA\MediaType(
      *             mediaType="application/x-www-form-urlencoded",
      *             @OA\Schema(
@@ -186,7 +186,7 @@ class BrandController extends Controller
      *         request="CreateBrand",
      *         description="Create brand request body",
      *         required=true,
-     * 
+     *
      *         @OA\MediaType(
      *             mediaType="application/x-www-form-urlencoded",
      *             @OA\Schema(

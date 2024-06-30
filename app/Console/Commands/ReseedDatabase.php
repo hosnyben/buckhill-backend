@@ -25,9 +25,9 @@ class ReseedDatabase extends Command
     /**
      * Execute the console command.
      */
-    public function handle()
+    public function handle() : void
     {
-        if( config('app.env') == 'production' ) {
+        if(config('app.env') == 'production') {
             $this->error('This command can only be run in testing/development environment.');
             return;
         }
