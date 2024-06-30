@@ -1,0 +1,1176 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Pet Shop API by Housni BENABID",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/api/v1/brands": {
+            "get": {
+                "tags": [
+                    "Brands"
+                ],
+                "summary": "List brands",
+                "description": "List brands endpoint",
+                "operationId": "brand.index",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "422": {
+                        "description": "Error processing the request",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/brand/{slug}": {
+            "get": {
+                "tags": [
+                    "Brands"
+                ],
+                "summary": "Show brand",
+                "description": "Show brand endpoint",
+                "operationId": "brand.show",
+                "parameters": [
+                    {
+                        "name": "slug",
+                        "in": "path",
+                        "description": "Brand slug",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "422": {
+                        "description": "Error processing the request",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Brands"
+                ],
+                "summary": "Update brand",
+                "description": "Create brand endpoint",
+                "operationId": "brand.update",
+                "parameters": [
+                    {
+                        "name": "slug",
+                        "in": "path",
+                        "description": "Brand slug",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Create brand request body",
+                    "required": true,
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "required": [
+                                    "title"
+                                ],
+                                "properties": {
+                                    "title": {
+                                        "description": "The title of the brand",
+                                        "type": "string",
+                                        "default": ""
+                                    },
+                                    "slug": {
+                                        "description": "The slug of the brand, auto-generated if not provided",
+                                        "type": "string",
+                                        "default": ""
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "422": {
+                        "description": "Error processing the request",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Brands"
+                ],
+                "summary": "Update brand",
+                "description": "Create brand endpoint",
+                "operationId": "brand.destroy",
+                "parameters": [
+                    {
+                        "name": "slug",
+                        "in": "path",
+                        "description": "Brand slug",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "422": {
+                        "description": "Error processing the request",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/brand/create": {
+            "post": {
+                "tags": [
+                    "Brands"
+                ],
+                "summary": "Create brand",
+                "description": "Create brand endpoint",
+                "operationId": "brand.create",
+                "requestBody": {
+                    "description": "Create brand request body",
+                    "required": true,
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "required": [
+                                    "title"
+                                ],
+                                "properties": {
+                                    "title": {
+                                        "description": "The title of the brand",
+                                        "type": "string",
+                                        "default": ""
+                                    },
+                                    "slug": {
+                                        "description": "The slug of the brand, auto-generated if not provided",
+                                        "type": "string",
+                                        "default": ""
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "422": {
+                        "description": "Error processing the request",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/main/blog": {
+            "get": {
+                "tags": [
+                    "Main"
+                ],
+                "summary": "List blogposts",
+                "description": "List blogposts endpoint",
+                "operationId": "blog.index",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Page number for pagination",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "422": {
+                        "description": "Error processing the request",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/main/blog/{slug}": {
+            "get": {
+                "tags": [
+                    "Main"
+                ],
+                "summary": "Show blogpost",
+                "description": "Show blogpost endpoint",
+                "operationId": "blog.show",
+                "parameters": [
+                    {
+                        "name": "slug",
+                        "in": "path",
+                        "description": "Blogpost slug",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "422": {
+                        "description": "Error processing the request",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/main/promotions": {
+            "get": {
+                "tags": [
+                    "Main"
+                ],
+                "summary": "List blogposts",
+                "description": "List blogposts endpoint",
+                "operationId": "promotions.index",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Page number for pagination",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "422": {
+                        "description": "Error processing the request",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/admin/user-listing": {
+            "get": {
+                "tags": [
+                    "Admin endpoint"
+                ],
+                "summary": "List available users",
+                "description": "List available users endpoint",
+                "operationId": "userAdmin.userListing",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Page number for pagination",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "422": {
+                        "description": "Error processing the request",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/admin/create": {
+            "post": {
+                "tags": [
+                    "Admin endpoint"
+                ],
+                "summary": "Create admin user",
+                "description": "Create admin user endpoint and receive the confirmation with the token",
+                "operationId": "userAdmin.create",
+                "requestBody": {
+                    "description": "Register with user details",
+                    "required": true,
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "required": [
+                                    "first_name",
+                                    "last_name",
+                                    "email",
+                                    "password",
+                                    "password_confirmation",
+                                    "address",
+                                    "phone_number"
+                                ],
+                                "properties": {
+                                    "first_name": {
+                                        "description": "The user first name",
+                                        "type": "string",
+                                        "default": ""
+                                    },
+                                    "last_name": {
+                                        "description": "The user last name",
+                                        "type": "string",
+                                        "default": ""
+                                    },
+                                    "email": {
+                                        "description": "The user email",
+                                        "type": "email",
+                                        "default": ""
+                                    },
+                                    "password": {
+                                        "description": "The user password",
+                                        "type": "string",
+                                        "default": ""
+                                    },
+                                    "password_confirmation": {
+                                        "description": "The user password confirmation",
+                                        "type": "string",
+                                        "default": ""
+                                    },
+                                    "avatar_uuid": {
+                                        "description": "The avatar UUID from the file table. The uuid  msut be from the file table",
+                                        "type": "string",
+                                        "default": ""
+                                    },
+                                    "address": {
+                                        "description": "The address of the user",
+                                        "type": "string",
+                                        "default": ""
+                                    },
+                                    "phone_number": {
+                                        "description": "The phone number of the user",
+                                        "type": "string",
+                                        "default": ""
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "422": {
+                        "description": "Error processing the request",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/user/create": {
+            "post": {
+                "tags": [
+                    "User endpoint"
+                ],
+                "summary": "Create regular user",
+                "description": "Create regular user endpoint and receive the confirmation with the token",
+                "operationId": "user.create",
+                "requestBody": {
+                    "description": "Register with user details",
+                    "required": true,
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "required": [
+                                    "first_name",
+                                    "last_name",
+                                    "email",
+                                    "password",
+                                    "password_confirmation",
+                                    "address",
+                                    "phone_number"
+                                ],
+                                "properties": {
+                                    "first_name": {
+                                        "description": "The user first name",
+                                        "type": "string",
+                                        "default": ""
+                                    },
+                                    "last_name": {
+                                        "description": "The user last name",
+                                        "type": "string",
+                                        "default": ""
+                                    },
+                                    "email": {
+                                        "description": "The user email",
+                                        "type": "email",
+                                        "default": ""
+                                    },
+                                    "password": {
+                                        "description": "The user password",
+                                        "type": "string",
+                                        "default": ""
+                                    },
+                                    "password_confirmation": {
+                                        "description": "The user password confirmation",
+                                        "type": "string",
+                                        "default": ""
+                                    },
+                                    "avatar_uuid": {
+                                        "description": "The avatar UUID from the file table. The uuid  msut be from the file table",
+                                        "type": "string",
+                                        "default": ""
+                                    },
+                                    "address": {
+                                        "description": "The address of the user",
+                                        "type": "string",
+                                        "default": ""
+                                    },
+                                    "phone_number": {
+                                        "description": "The phone number of the user",
+                                        "type": "string",
+                                        "default": ""
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "422": {
+                        "description": "Error processing the request",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/admin/user-edit/{uuid}": {
+            "put": {
+                "tags": [
+                    "Admin endpoint"
+                ],
+                "summary": "Edit a user",
+                "description": "Edit a user endpoint and receive the confirmation",
+                "operationId": "userAdmin.userEdit",
+                "parameters": [
+                    {
+                        "name": "uuid",
+                        "in": "path",
+                        "description": "User uuid",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Update user details",
+                    "required": true,
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "properties": {
+                                    "first_name": {
+                                        "description": "The user first name",
+                                        "type": "string",
+                                        "default": ""
+                                    },
+                                    "last_name": {
+                                        "description": "The user last name",
+                                        "type": "string",
+                                        "default": ""
+                                    },
+                                    "email": {
+                                        "description": "The user email",
+                                        "type": "email",
+                                        "default": ""
+                                    },
+                                    "password": {
+                                        "description": "The user password",
+                                        "type": "string",
+                                        "default": ""
+                                    },
+                                    "password_confirmation": {
+                                        "description": "The user password confirmation",
+                                        "type": "string",
+                                        "default": ""
+                                    },
+                                    "avatar_uuid": {
+                                        "description": "The avatar UUID from the file table. The uuid  msut be from the file table",
+                                        "type": "string",
+                                        "default": ""
+                                    },
+                                    "address": {
+                                        "description": "The address of the user",
+                                        "type": "string",
+                                        "default": ""
+                                    },
+                                    "phone_number": {
+                                        "description": "The phone number of the user",
+                                        "type": "string",
+                                        "default": ""
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "422": {
+                        "description": "Error processing the request",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/user/edit/": {
+            "put": {
+                "tags": [
+                    "User endpoint"
+                ],
+                "summary": "Edit authenticated user",
+                "description": "Edit authenticated user endpoint and receive the confirmation",
+                "operationId": "user.update",
+                "requestBody": {
+                    "description": "Update user details",
+                    "required": true,
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "properties": {
+                                    "first_name": {
+                                        "description": "The user first name",
+                                        "type": "string",
+                                        "default": ""
+                                    },
+                                    "last_name": {
+                                        "description": "The user last name",
+                                        "type": "string",
+                                        "default": ""
+                                    },
+                                    "email": {
+                                        "description": "The user email",
+                                        "type": "email",
+                                        "default": ""
+                                    },
+                                    "password": {
+                                        "description": "The user password",
+                                        "type": "string",
+                                        "default": ""
+                                    },
+                                    "password_confirmation": {
+                                        "description": "The user password confirmation",
+                                        "type": "string",
+                                        "default": ""
+                                    },
+                                    "avatar_uuid": {
+                                        "description": "The avatar UUID from the file table. The uuid  msut be from the file table",
+                                        "type": "string",
+                                        "default": ""
+                                    },
+                                    "address": {
+                                        "description": "The address of the user",
+                                        "type": "string",
+                                        "default": ""
+                                    },
+                                    "phone_number": {
+                                        "description": "The phone number of the user",
+                                        "type": "string",
+                                        "default": ""
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "422": {
+                        "description": "Error processing the request",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/admin/user-delete/{uuid}": {
+            "delete": {
+                "tags": [
+                    "Admin endpoint"
+                ],
+                "summary": "Delete a user",
+                "description": "Delete a user endpoint and receive the confirmation",
+                "operationId": "userAdmin.userDelete",
+                "parameters": [
+                    {
+                        "name": "uuid",
+                        "in": "path",
+                        "description": "User uuid",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "422": {
+                        "description": "Error processing the request",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/user/": {
+            "get": {
+                "tags": [
+                    "User endpoint"
+                ],
+                "summary": "Show user details",
+                "description": "Show user details endpoint",
+                "operationId": "user.show",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "422": {
+                        "description": "Error processing the request",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "User endpoint"
+                ],
+                "summary": "Delete authenticated user",
+                "description": "Delete authenticated user endpoint and receive the confirmation",
+                "operationId": "user.destroy",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "422": {
+                        "description": "Error processing the request",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/admin/login": {
+            "post": {
+                "tags": [
+                    "Admin endpoint"
+                ],
+                "summary": "Login as admin user",
+                "description": "Login as admin user endpoint and receive the token",
+                "operationId": "userAdmin.login",
+                "requestBody": {
+                    "description": "Login using Email/Password",
+                    "required": true,
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "required": [
+                                    "email",
+                                    "password"
+                                ],
+                                "properties": {
+                                    "email": {
+                                        "description": "The user email",
+                                        "type": "email",
+                                        "default": "admin@buckhill.co.uk"
+                                    },
+                                    "password": {
+                                        "description": "The user password",
+                                        "type": "string",
+                                        "default": "admin"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "422": {
+                        "description": "Error processing the request",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/user/login": {
+            "post": {
+                "tags": [
+                    "User endpoint"
+                ],
+                "summary": "Login as user",
+                "description": "Login as user endpoint and receive the token",
+                "operationId": "user.login",
+                "requestBody": {
+                    "description": "Create brand request body",
+                    "required": true,
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "required": [
+                                    "email",
+                                    "password"
+                                ],
+                                "properties": {
+                                    "email": {
+                                        "description": "The user email",
+                                        "type": "email",
+                                        "default": ""
+                                    },
+                                    "password": {
+                                        "description": "The user password",
+                                        "type": "string",
+                                        "default": "userpassword"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "422": {
+                        "description": "Error processing the request",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/admin/logout": {
+            "get": {
+                "tags": [
+                    "Admin endpoint"
+                ],
+                "summary": "Logout user",
+                "description": "Logout user endpoint and receive the confirmation",
+                "operationId": "userAdmin.logout",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "422": {
+                        "description": "Error processing the request",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/user/logout": {
+            "get": {
+                "tags": [
+                    "User endpoint"
+                ],
+                "summary": "Logout user",
+                "description": "Logout user endpoint and receive the confirmation",
+                "operationId": "user.logout",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "422": {
+                        "description": "Error processing the request",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/user/orders": {
+            "get": {
+                "tags": [
+                    "User endpoint"
+                ],
+                "summary": "List user orders",
+                "description": "List user orders endpoint",
+                "operationId": "user.orders",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Page number for pagination",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "422": {
+                        "description": "Error processing the request",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/user/forgot-password": {
+            "post": {
+                "tags": [
+                    "User endpoint"
+                ],
+                "summary": "Request reset password",
+                "description": "Request reset password endpoint and receive the token",
+                "operationId": "user.forgotPassword",
+                "requestBody": {
+                    "description": "Request password using email",
+                    "required": true,
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "required": [
+                                    "email"
+                                ],
+                                "properties": {
+                                    "email": {
+                                        "description": "The user email",
+                                        "type": "email",
+                                        "default": "admin@buckhill.co.uk"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "422": {
+                        "description": "Error processing the request",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/user/reset-password-token/{token}": {
+            "post": {
+                "tags": [
+                    "User endpoint"
+                ],
+                "summary": "Reset password with token path",
+                "description": "Reset password endpoint and receive the confirmation",
+                "operationId": "user.resetPassword",
+                "parameters": [
+                    {
+                        "name": "token",
+                        "in": "path",
+                        "description": "User token",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Reset password using token path",
+                    "required": true,
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "required": [
+                                    "password",
+                                    "password_confirmation"
+                                ],
+                                "properties": {
+                                    "password": {
+                                        "description": "The user password",
+                                        "type": "string",
+                                        "default": ""
+                                    },
+                                    "password_confirmation": {
+                                        "description": "The user password confirmation",
+                                        "type": "string",
+                                        "default": ""
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "422": {
+                        "description": "Error processing the request",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "bearerFormat": "JWT",
+                "scheme": "bearer"
+            }
+        }
+    }
+}

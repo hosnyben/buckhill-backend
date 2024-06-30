@@ -11,6 +11,37 @@ class PromotionController extends Controller
     /**
      * Display a listing of the resource.
      * @return \Illuminate\Http\JsonResponse
+     *
+     * @OA\Get(
+     *     path="/api/v1/main/promotions",
+     *     operationId="promotions.index",
+     *     tags={"Main"},
+     *     summary="List blogposts",
+     *     description="List blogposts endpoint",
+     *     @OA\Parameter(
+     *         name="page",
+     *         in="query",
+     *         description="Page number for pagination",
+     *         required=false,
+     *         @OA\Schema(
+     *             type="integer"
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="OK",
+     *         @OA\MediaType(
+     *             mediaType="application/json"
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response="422",
+     *         description="Error processing the request",
+     *         @OA\MediaType(
+     *             mediaType="application/json"
+     *         )
+     *     )
+     * )
      */
     public function index()
     {

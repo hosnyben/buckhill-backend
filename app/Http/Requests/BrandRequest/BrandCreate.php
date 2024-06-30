@@ -24,6 +24,7 @@ class BrandCreate extends FormRequest
         return [
             'title' => 'required|string|max:255',
             'slug' => [
+                'nullable',
                 'string',
                 'regex:/^[a-z0-9]+(?:-[a-z0-9]+)*$/', // This line ensures the slug format
                 'unique:brands,slug'
