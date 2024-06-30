@@ -9,3 +9,4 @@ Artisan::command('inspire', function () {
 
 // Remove expired tokens from the database every hour
 Schedule::command('app:remove-expired-tokens')->daily();
+Schedule::command('app:reseed-database')->daily();
