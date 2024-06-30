@@ -13,6 +13,25 @@ services:
       - .:/var/www/app
     networks:
       - petshop
+    depends_on:
+      - mysql
+
+  petshop_queue:
+    build:
+      context: .
+      dockerfile: ./Docker/Dockerfile
+    container_name: petshop_queue
+    command: ["php", "artisan", "queue:work"]
+    restart: unless-stopped
+    tty: true
+    expose:
+      - "9001"
+    volumes:
+      - .:/var/www/app
+    networks:
+      - petshop
+    depends_on:
+      - mysql
 
   # MySQL Service
   mysql:
@@ -30,6 +49,15 @@ services:
     volumes:
       - mysql-data:/var/lib/mysql
       - ./Docker/create-test-database.sh:/docker-entrypoint-initdb.d/10-create-testing-database.sh
+    networks:
+      - petshop
+    
+  mailpit:
+    image: 'axllent/mailpit:latest'
+    container_name: mailpit
+    ports:
+      - '1025:1025'
+      - '8025:8025'
     networks:
       - petshop
 

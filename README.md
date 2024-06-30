@@ -15,7 +15,7 @@ The application is out-of-the-box app. All you have to do is to run the followin
 # Copy .env.example file to .env
 cp .env.example .env
 
-# Create api server
+# Create api server in detach mode
 docker-compose up -d
 
 # Generate app key
@@ -27,6 +27,13 @@ docker exec -it petshop_api php artisan db:seed
 # Generate rsa private/public key for JWT
 docker exec -it petshop_api php artisan app:generate-token-keys
 ```
+
+By running the `docker-compose up -d` command. You will setup the following containers:
+- petshop_api : Api server
+- petshop_queue : Queue worker
+- mysql : Mysql Database
+- mailpit : Mail previewer for local testing
+- nginx : Nginx server to access to the application 
 
 #### Shut down the application
 Stoping the docker server is reversible as necessary datas as stored in binding volumes. you can stop the server by running the following command.
@@ -41,3 +48,4 @@ For documentation purpose the application database will be seeded automatically 
 ## Application details
 - Application url : http://localhost:7001
 - Application Swagger API Url : http://localhost:7001/api/documentation#/
+- Mailpit (Email debugger) : http://localhost:8025/
